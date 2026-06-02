@@ -9,6 +9,8 @@ import { CharacterHeader } from "../task-list/CharacterHeader";
 import { DailyQuoteCard } from "./DailyQuoteCard";
 import { QuickLinks } from "./QuickLinks";
 import { StudyStatsSummary } from "./StudyStatsSummary";
+import { DailyQuestBoard, matchesQuestBoard } from "./DailyQuestBoard";
+import type { QuestBoard } from "./DailyQuestBoard";
 import type { FilterState } from "../task-list/FilterBar";
 
 const STORAGE_KEY = "todolist-data-v3";
@@ -40,6 +42,7 @@ export function HomePage() {
   const [expGainId, setExpGainId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [questBoard, setQuestBoard] = useState<QuestBoard>("today");
   const [filter, setFilter] = useState<FilterState>({
     search: "",
     status: "전체",
@@ -150,6 +153,8 @@ export function HomePage() {
 
   const filteredTodos = useMemo(() => {
     let result = todos.filter((t) => {
+      if (!matchesQuestBoard(t, questBoard)) return false;
+
       if (
         filter.search &&
         !t.title.toLowerCase().includes(filter.search.toLowerCase()) &&
@@ -173,7 +178,7 @@ export function HomePage() {
       }
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
-  }, [todos, filter]);
+  }, [todos, filter, questBoard]);
 
   const counts = useMemo(
     () => ({
@@ -240,6 +245,12 @@ export function HomePage() {
       <QuickLinks />
 
       <StudyStatsSummary todos={todos} />
+      
+      <DailyQuestBoard
+        todos={todos}
+        selectedBoard={questBoard}
+        onChange={setQuestBoard}
+      />
 
       {/* Filter + list */}
       <div className="space-y-5">
