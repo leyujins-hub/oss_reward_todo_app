@@ -2,20 +2,20 @@ import { ExternalLink, GraduationCap, BookOpen, CalendarDays } from "lucide-reac
 
 const links = [
   {
-    title: "울산대학교",
-    description: "학교 홈페이지 바로가기",
+    title: "울산대",
+    description: "학교 홈페이지",
     href: "https://www.ulsan.ac.kr",
     icon: GraduationCap,
   },
   {
     title: "UCLASS",
-    description: "강의 자료와 과제 확인",
+    description: "강의·과제",
     href: "https://ulms.ulsan.ac.kr",
     icon: BookOpen,
   },
   {
-    title: "학사일정",
-    description: "중요 일정 확인",
+    title: "AI 학사일정",
+    description: "학사 일정",
     href: "https://ai.ulsan.ac.kr/ai/1091",
     icon: CalendarDays,
   },
@@ -23,15 +23,17 @@ const links = [
 
 export function QuickLinks() {
   return (
-    <section className="rounded-2xl border bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
+    <section className="rounded-2xl border bg-white/90 p-4 shadow-sm">
+      <div className="mb-3 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold">빠른 링크</h2>
-          <p className="text-sm text-gray-500">학교 생활에 필요한 사이트를 바로 열 수 있어요.</p>
+          <h2 className="text-base font-extrabold">빠른 링크</h2>
+          <p className="text-xs font-semibold text-gray-500">
+            학교 생활 퀘스트에 필요한 바로가기
+          </p>
         </div>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-2 md:grid-cols-3">
         {links.map((link) => {
           const Icon = link.icon;
 
@@ -41,18 +43,18 @@ export function QuickLinks() {
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-between rounded-xl border p-4 transition hover:bg-gray-50"
+              className="flex items-center justify-between rounded-xl border bg-white px-3 py-3 transition hover:bg-purple-50 hover:text-purple-700"
             >
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-purple-50 p-2 text-purple-600">
-                  <Icon size={20} />
+              <div className="flex items-center gap-2">
+                <div className="rounded-lg bg-purple-50 p-2 text-purple-600">
+                  <Icon size={17} />
                 </div>
                 <div>
-                  <p className="font-semibold">{link.title}</p>
-                  <p className="text-xs text-gray-500">{link.description}</p>
+                  <p className="text-sm font-extrabold">{link.title}</p>
+                  <p className="text-[11px] font-semibold text-gray-500">{link.description}</p>
                 </div>
               </div>
-              <ExternalLink size={16} className="text-gray-400" />
+              <ExternalLink size={14} className="text-gray-400" />
             </a>
           );
         })}
