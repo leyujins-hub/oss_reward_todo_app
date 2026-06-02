@@ -1,78 +1,73 @@
-# OSS Reward To-Do App
+# React + TypeScript + Vite
 
-## 프로젝트 개요
-울산대학교 학생들을 위한 Adaptive To-Do List 앱입니다.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-기존 To-Do List는 단순히 할 일을 나열하는 방식이기 때문에, 어떤 일이 더 급한지, 어떤 일을 계속 미루고 있는지 직관적으로 알기 어렵습니다.
+Currently, two official plugins are available:
 
-저희 앱은 마감일, 중요도, 미완료 여부에 따라 작업 카드의 색상과 정렬을 바꾸고, 과제를 완료하면 캐릭터가 성장하는 보상 구조를 제공합니다.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 주요 기능
-- 할 일 추가
-- 할 일 수정
-- 할 일 삭제
-- 완료 체크
-- 마감일 설정
-- 중요도 설정
-- 카테고리 분류
-- 오늘의 추천 작업 표시
-- 미완료 항목 강조
-- 캐릭터 성장 보상
-- 카테고리별 통계
+## React Compiler
 
-## Adaptiveness 적용
-사용자의 작업 상태에 따라 UI가 변화합니다.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- 마감일이 가까운 작업은 상단에 배치됩니다.
-- 중요도가 높은 작업은 색상으로 강조됩니다.
-- 여러 번 미룬 작업은 경고 문구로 표시됩니다.
-- 완료한 과제 수에 따라 캐릭터가 성장합니다.
-- 오늘 해야 할 일을 추천 팝업으로 보여줍니다.
+## Expanding the ESLint configuration
 
-## 팀원 역할
-- 이유진: GitHub 관리, 발표, README 작성, 최종 통합
-- 김도연: 과제 추가 화면, 입력폼, 중요도 선택
-- 김민지: 홈 화면, 오늘의 추천 카드, 통계 화면
-- 안혜원: 목록 화면, 완료 체크, 수정/삭제 기능
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Git 협업 방식
-- main: 최종 제출 브랜치
-- develop: 개발 통합 브랜치
-- feature/add-task: 과제 추가 기능
-- feature/home-recommend: 홈 및 추천 기능
-- feature/task-list: 목록 및 완료 기능
-- docs/presentation: 발표 및 문서 정리
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## 커밋 메시지 규칙
-- feat: 기능 추가
-- fix: 오류 수정
-- style: 디자인 수정
-- docs: 문서 작성
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- ## 실행 방법
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-본 프로젝트는 기본 HTML, CSS, JavaScript로 구성된 프로토타입입니다.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-1. 저장소를 clone합니다.
-2. `src/index.html` 파일을 브라우저에서 실행합니다.
-3. 할 일을 입력하고 중요도를 선택한 뒤 추가 버튼을 누릅니다.
-4. 완료 버튼을 눌러 완료 현황을 확인합니다.
-5. 오늘의 추천 보기 버튼을 눌러 Adaptive 추천 팝업을 확인합니다.
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-## 현재 구현 상태
-
-- 기본 홈 화면 구현
-- 할 일 추가 기능 구현
-- 중요도별 색상 표시 구현
-- 완료 체크 기능 구현
-- 완료 개수 표시 구현
-- Adaptive 추천 팝업 구현
-
-## 향후 개선 방향
-
-- Figma Make 기반 최종 UI 반영
-- 마감일 입력 기능 추가
-- 카테고리별 통계 기능 추가
-- 캐릭터 성장 단계 시각화
-- 학교 사이트 바로가기 기능 추가
-- 위치 기반 알림 기능 확장
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
