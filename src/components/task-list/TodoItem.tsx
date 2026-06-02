@@ -51,7 +51,7 @@ export function TodoItem({ todo, onEdit, onDelete, onStatusChange, onTimeUpdate 
   const isComplete = todo.status === "완료";
   const isHighPriority = todo.priority === "높음";
 
-  const focusState = getFocusState(todo.focusTime, todo.status);
+  const focusState = getFocusState(todo.focusTime, todo.status, todo.dueDate);
   const focusConfig = focusStateConfig[focusState];
 
   // High priority = red card styling
