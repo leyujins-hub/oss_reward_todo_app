@@ -1,0 +1,118 @@
+import { Sparkles, Heart, Star, Zap, TrendingUp } from "lucide-react";
+import { motion } from "motion/react";
+
+const quotes = [
+  { text: "천 리 길도 한 걸음부터.", icon: "trendingUp" },
+  { text: "오늘의 노력이 내일의 나를 만든다.", icon: "star" },
+  { text: "포기하지 않으면 반드시 성장한다.", icon: "heart" },
+  { text: "작은 진전도 진전이다.", icon: "sparkles" },
+  { text: "꾸준함은 재능을 이긴다.", icon: "zap" },
+  { text: "실패는 성공의 어머니다.", icon: "heart" },
+  { text: "시작이 반이다.", icon: "sparkles" },
+  { text: "노력은 배신하지 않는다.", icon: "star" },
+  { text: "오늘 하루도 최선을 다했다면 충분하다.", icon: "heart" },
+  { text: "작은 습관이 큰 변화를 만든다.", icon: "trendingUp" },
+];
+
+const iconMap = {
+  sparkles: Sparkles,
+  heart: Heart,
+  star: Star,
+  zap: Zap,
+  trendingUp: TrendingUp,
+};
+
+function getDailyQuote(): { text: string; icon: string } {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+
+  // 날짜를 기반으로 시드값 생성
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    const char = dateString.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+
+  const index = Math.abs(hash) % quotes.length;
+  return quotes[index];
+}
+
+export function DailyQuoteCard() {
+  const dailyQuote = getDailyQuote();
+  const IconComponent = iconMap[dailyQuote.icon as keyof typeof iconMap];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="relative overflow-hidden rounded-2xl p-4 shadow-sm border border-border"
+      style={{
+        background: "linear-gradient(135deg, #FFF9E6 0%, #E8F5E9 100%)",
+      }}
+    >
+      {/* 배경 장식 */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white/30 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/30 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+
+      <div className="relative z-10 flex flex-col gap-3">
+        {/* 헤더 */}
+        <div className="flex items-center gap-2">
+          <Sparkles size={16} className="text-amber-500" />
+          <h2 className="text-foreground text-sm font-medium">오늘의 한마디</h2>
+        </div>
+
+        {/* 명언과 아이콘 */}
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 p-2 rounded-xl bg-white/60 backdrop-blur-sm">
+            <IconComponent size={20} className="text-amber-600" />
+          </div>
+
+          <div className="flex-1 flex flex-col gap-2">
+            <p className="text-foreground leading-relaxed">
+              "{dailyQuote.text}"
+            </p>
+
+            {/* 기린 캐릭터 미니 일러스트 */}
+            <div className="flex items-center gap-2">
+              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                {/* 기린 몸통 */}
+                <ellipse cx="20" cy="28" rx="8" ry="6" fill="#FDB462" />
+
+                {/* 기린 목 */}
+                <rect x="18" y="15" width="4" height="13" rx="2" fill="#FDB462" />
+
+                {/* 기린 머리 */}
+                <circle cx="20" cy="12" r="5" fill="#FDB462" />
+
+                {/* 귀 */}
+                <ellipse cx="17" cy="9" rx="1.5" ry="2.5" fill="#FDB462" />
+                <ellipse cx="23" cy="9" rx="1.5" ry="2.5" fill="#FDB462" />
+
+                {/* 뿔 */}
+                <circle cx="17" cy="7.5" r="1" fill="#D4956D" />
+                <circle cx="23" cy="7.5" r="1" fill="#D4956D" />
+
+                {/* 얼굴 */}
+                <circle cx="18" cy="12" r="0.8" fill="#333" />
+                <circle cx="22" cy="12" r="0.8" fill="#333" />
+                <path d="M 18 14 Q 20 15 22 14" stroke="#333" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+
+                {/* 반점 */}
+                <circle cx="16" cy="20" r="1.2" fill="#D4956D" opacity="0.6" />
+                <circle cx="24" cy="22" r="1" fill="#D4956D" opacity="0.6" />
+                <circle cx="19" cy="26" r="1.5" fill="#D4956D" opacity="0.6" />
+              </svg>
+
+              <p className="text-sm text-muted-foreground">
+                오늘도 한 걸음 성장했어요!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
