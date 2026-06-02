@@ -8,6 +8,7 @@ import { FilterBar } from "../task-list/FilterBar";
 import { CharacterHeader } from "../task-list/CharacterHeader";
 import { DailyQuoteCard } from "./DailyQuoteCard";
 import { QuickLinks } from "./QuickLinks";
+import { StudyStatsSummary } from "./StudyStatsSummary";
 import type { FilterState } from "../task-list/FilterBar";
 
 const STORAGE_KEY = "todolist-data-v3";
@@ -237,6 +238,8 @@ export function HomePage() {
 
       {/* Quick Links */}
       <QuickLinks />
+
+      <StudyStatsSummary todos={todos} />
 
       {/* Filter + list */}
       <div className="space-y-5">
