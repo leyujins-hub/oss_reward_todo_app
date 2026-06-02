@@ -26,7 +26,6 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
   const expNeeded = nextLevel ? nextLevel.minExp - currentLevel.minExp : 50;
   const expPct = currentLevel.level === 5 ? 100 : Math.min((expInLevel / expNeeded) * 100, 100);
 
-  // Daily progress
   const total = todos.length;
   const done = todos.filter((t) => t.status === "완료").length;
   const progressPct = total === 0 ? 0 : Math.round((done / total) * 100);
@@ -42,7 +41,7 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
 
   return (
     <div
-      className="relative rounded-3xl overflow-hidden mb-8"
+      className="relative mb-8 overflow-hidden rounded-3xl"
       style={{
         background: `linear-gradient(135deg, #FFFBEC 0%, #FFF3CC 40%, #EEF0FF 100%)`,
         border: `2px solid ${currentLevel.color}30`,
@@ -51,15 +50,15 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
     >
       {/* Decorative background circles */}
       <div
-        className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10"
+        className="absolute -right-8 -top-8 h-40 w-40 rounded-full opacity-10"
         style={{ backgroundColor: currentLevel.color }}
       />
       <div
-        className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full opacity-8"
+        className="absolute -bottom-6 -left-6 h-32 w-32 rounded-full opacity-8"
         style={{ backgroundColor: currentLevel.color }}
       />
 
-      <div className="relative flex flex-col sm:flex-row items-center gap-6 p-6">
+      <div className="relative flex flex-col items-center gap-6 p-6 sm:flex-row">
         {/* Giraffe */}
         <div className="relative shrink-0">
           <motion.div
@@ -67,7 +66,7 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 180, damping: 16 }}
-            className="w-36 h-40"
+            className="character-safe-area flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden md:h-36 md:w-36"
           >
             <GiraffeCharacter level={currentLevel.level} dailyStage={dailyStage} />
           </motion.div>
@@ -81,7 +80,7 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
                 animate={{ opacity: 1, y: -40, scale: 1 }}
                 exit={{ opacity: 0, y: -70 }}
                 transition={{ duration: 0.7 }}
-                className="absolute top-4 right-0 px-3 py-1 rounded-full text-white text-sm font-semibold shadow-lg pointer-events-none"
+                className="pointer-events-none absolute right-0 top-4 rounded-full px-3 py-1 text-sm font-semibold text-white shadow-lg"
                 style={{ backgroundColor: currentLevel.color }}
               >
                 ⚡ +10 EXP
@@ -91,11 +90,11 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
         </div>
 
         {/* Stats */}
-        <div className="flex-1 w-full space-y-4">
+        <div className="w-full flex-1 space-y-4">
           {/* Level + name */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex flex-wrap items-center gap-3">
             <span
-              className="px-3 py-1 rounded-full text-white text-sm font-semibold"
+              className="rounded-full px-3 py-1 text-sm font-semibold text-white"
               style={{ backgroundColor: currentLevel.color }}
             >
               Lv.{currentLevel.level}
@@ -110,34 +109,36 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
 
           {/* EXP bar */}
           <div>
-            <div className="flex justify-between items-center mb-1.5">
-              <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <div className="mb-1.5 flex items-center justify-between">
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Zap size={11} style={{ color: currentLevel.color }} />
                 EXP
               </span>
               <span className="text-xs font-semibold" style={{ color: currentLevel.color }}>
                 {exp}
                 {currentLevel.level < 5 && (
-                  <span className="text-muted-foreground font-normal">
+                  <span className="font-normal text-muted-foreground">
                     {" "}/ {nextLevel?.minExp} EXP
                   </span>
                 )}
                 {currentLevel.level === 5 && " · MAX"}
               </span>
             </div>
-            <div className="h-4 bg-white/80 rounded-full overflow-hidden border border-white">
+
+            <div className="h-4 overflow-hidden rounded-full border border-white bg-white/80">
               <motion.div
-                className="h-full rounded-full relative"
+                className="relative h-full rounded-full"
                 style={{ backgroundColor: currentLevel.color }}
                 initial={false}
                 animate={{ width: `${expPct}%` }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
-                <div className="absolute inset-0 bg-white/20 rounded-full" />
+                <div className="absolute inset-0 rounded-full bg-white/20" />
               </motion.div>
             </div>
+
             {currentLevel.level < 5 && (
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="mt-1 text-xs text-muted-foreground">
                 Lv.{currentLevel.level + 1} 까지{" "}
                 <span style={{ color: currentLevel.color }} className="font-semibold">
                   {(nextLevel?.minExp ?? 0) - exp} EXP
@@ -150,21 +151,23 @@ export function CharacterHeader({ exp, todos, expGainId }: CharacterHeaderProps)
 
           {/* Daily progress — 5 stages */}
           <div>
-            <div className="flex justify-between items-center mb-2">
+            <div className="mb-2 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">오늘의 진행도</span>
               <span className="text-xs font-semibold text-foreground">
                 {done}/{total} 완료{" "}
-                <span className="text-muted-foreground font-normal">({progressPct}%)</span>
+                <span className="font-normal text-muted-foreground">({progressPct}%)</span>
               </span>
             </div>
+
             <div className="flex gap-1.5">
               {Array.from({ length: 5 }).map((_, i) => {
                 const filled = i < dailyStage;
                 const isCurrentEdge = i === dailyStage - 1;
+
                 return (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                  <div key={i} className="flex flex-1 flex-col items-center gap-1">
                     <motion.div
-                      className="w-full h-3 rounded-full overflow-hidden"
+                      className="h-3 w-full overflow-hidden rounded-full"
                       style={{ backgroundColor: filled ? stageColors[i] : "#E8E4F0" }}
                       animate={{
                         scale: isCurrentEdge ? [1, 1.06, 1] : 1,

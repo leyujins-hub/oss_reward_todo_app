@@ -11,3 +11,23 @@ body {
   background: #f6f3ea;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
+
+/* Final deploy safety fix: prevent giraffe character from overflowing */
+svg {
+  max-width: 100%;
+}
+
+.character-safe-area svg,
+.giraffe-safe-area svg {
+  width: 96px !important;
+  max-width: 96px !important;
+  height: auto !important;
+}
+
+@media (min-width: 768px) {
+  .character-safe-area svg,
+  .giraffe-safe-area svg {
+    width: 120px !important;
+    max-width: 120px !important;
+  }
+}
