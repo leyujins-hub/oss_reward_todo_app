@@ -40,19 +40,20 @@
 
 최종 구현 기능은 `docs/implementation-summary.md`에 정리했습니다.
 
-## 7. 초안과 최종 구현본 차이
+## 7. 초안과 최종 구현본 비교
 
-팀원별 초안과 최종 구현본의 차이는 `docs/final-vs-draft.md`에 정리했습니다.
+팀원별 생성형 AI/Figma AI 초안 화면은 `design/draft` 폴더에 정리했습니다.  
+최종 배포 사이트에서 확인 가능한 구현 화면은 `design/final` 폴더에 정리했습니다.  
+초안과 최종 구현본의 차이 및 기능 조정 이유는 `docs/draft-to-final-comparison.md`에 정리했습니다.
 
 ## 8. 생성형 AI 활용
 
-생성형 AI를 활용한 프롬프트와 결과 정리는 `docs/prompt-log.md`에 정리했습니다.
-
-초안과 최종 구현본의 비교 내용은 `docs/draft-to-final-comparison.md`에 정리했습니다.
+생성형 AI를 활용한 프롬프트와 결과 정리는 `docs/prompt-log.md`에 정리했습니다.  
+생성형 AI가 제안한 결과를 그대로 사용하지 않고, 프로젝트 목적과 구현 가능성을 고려하여 기능을 통합·수정했습니다.
 
 ## 9. 배포 링크
 
-배포 사이트: 여기에 GitHub Pages 링크 입력
+배포 사이트: https://leyujins-hub.github.io/oss_reward_todo_app/
 
 ## 10. GitHub 협업 방식
 
