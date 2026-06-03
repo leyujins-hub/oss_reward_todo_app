@@ -9,26 +9,38 @@ interface DailyQuestBoardProps {
   onChange: (board: QuestBoard) => void;
 }
 
-function toDateOnly(date: Date) {
-  const copied = new Date(date);
-  copied.setHours(0, 0, 0, 0);
-  return copied;
-}
-
+/**
+ * 오늘 날짜를 YYYY-MM-DD 형식으로 반환합니다.
+ * 
+ * 기존의 toISOString()은 UTC 기준이라 한국 시간과 날짜가 밀릴 수 있습니다.
+ * 그래서 getFullYear/getMonth/getDate를 사용해 로컬 날짜 기준으로 처리합니다.
+ */
 function getTodayString(offset = 0) {
-  const date = toDateOnly(new Date());
+  const date = new Date();
   date.setDate(date.getDate() + offset);
-  return date.toISOString().slice(0, 10);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
+/**
+ * 오늘 이전 날짜이고, 완료되지 않은 todo라면 미룬 퀘스트로 분류합니다.
+ */
 function isOverdue(todo: Todo) {
   if (!todo.dueDate) return false;
   if (todo.status === "완료") return false;
 
   const today = getTodayString(0);
+
   return todo.dueDate < today;
 }
 
+/**
+ * 선택된 퀘스트 보드에 따라 todo를 필터링합니다.
+ */
 export function matchesQuestBoard(todo: Todo, board: QuestBoard) {
   const today = getTodayString(0);
   const tomorrow = getTodayString(1);
@@ -65,6 +77,7 @@ function getRecommendedTodo(todos: Todo[]) {
       todo.dueDate <= twoDaysLater &&
       todo.focusTime === 0
   );
+
   if (urgent) {
     return {
       todo: urgent,
